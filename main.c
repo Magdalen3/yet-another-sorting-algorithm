@@ -9,17 +9,12 @@ void randomArray(int list[], int size){
 		list[i]=(rand() % (size+1));
 		}
 }
-void imprimirArray(){
-			for(i=1;i<size;i++){
-								DrawRectangle(i, 1, 1, list[i], RAYWHITE);
-			}
-}
 
 int main(){
 		//setting array
 		srand(time(NULL));
 
-		const int size=800;int i;
+		const int size=800;int i;int resto;int temp; bool clear =false;
 		printf("insertando tamaño\n");
 		//scanf("%d", &size);
 		if(size <= 0)return 1;
@@ -34,14 +29,24 @@ int main(){
 
 		SetTargetFPS(60);
 		
-		while (!WindowShouldClose()){
+		while(!WindowShouldClose()){
 				BeginDrawing();
 				ClearBackground(BLACK);
 				
-				//while(int j=1;clear=false
+				do{		
 						for(i=1;i<size;i++){
-										DrawRectangle(i, 1, 1, list[i], RAYWHITE);
+								DrawRectangle(i, 1, 1, list[i], RAYWHITE);
 						}
+						for(int j=2;j<size;j++){
+						resto=list[j-1];
+								if (resto > list[j]){
+										temp=list[j];
+										list[j]=resto;
+										list[j-1]=temp;
+								}
+						}
+
+				}while(clear=false);
 
 				EndDrawing();
 		}
