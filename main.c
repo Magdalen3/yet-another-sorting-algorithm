@@ -29,18 +29,24 @@ int main(){
 
 		SetTargetFPS(60);
 		int clearing=2;
+		bool cleared=false;
 		while(!WindowShouldClose()){
 				BeginDrawing();
-				ClearBackground(BLACK);
+				if(cleared==false)ClearBackground(BLACK);
+				if(cleared==true)ClearBackground(WHITE);
 				
-				
-				
-						if (clearing>1){
+						
+			//	switch(currentScreen)
+			//	{
+			//			case logo:
+			//			{
+							if (clearing>0){
 								clearing=0;
-								for(i=1;i<size;i++){
-										DrawRectangle(i, 1, 1, list[i], RAYWHITE);
-								}
+						//	for(i=1;i<size;i++){
+						//				DrawRectangle(i, 1, 1, list[i], RAYWHITE);
+						//		}
 								for(j=2;j<size;j++){
+										DrawRectangle(j, 1, 1, list[j], RAYWHITE);
 										resto=list[j-1];
 										if (resto > list[j]){
 												temp=list[j];
@@ -48,18 +54,28 @@ int main(){
 												list[j-1]=temp;
 												clearing++;
 										}
+										}
 								}
+								else{
+										clear=true;
+								}
+						
+						
+						if(clear==true && cleared==false){
+								WaitTime(1.0);
+								for(i=1;i<size;i++){
+										DrawRectangle(i, 1, 1, list[i], GREEN);
+								}
+								WaitTime(1.0);
+								cleared++;
 						}
-						else{
-								clear=true;
+						if(clear==true && cleared==true){
+								DrawText("pipopipopipo", (size/2)-50, screenY/2, 20, BLACK);
+
 						}
-
-				//}while(clear=false);
-
-				if(clear==true)DrawText("listorti", size/2, screenY/2, 20, LIGHTGRAY);
-				EndDrawing();
-
-		}
+						EndDrawing();
+						}
+		
 		CloseWindow();
 
 }
