@@ -3,6 +3,9 @@
 #include <time.h>
 #include <raylib.h>
 #include <stdbool.h>
+#include "header.h"
+#define SCREENX 800
+#define SCREENY 800
 
 void randomArray(int list[], int size){
 	for (int i=0;i < size; i++){
@@ -10,71 +13,72 @@ void randomArray(int list[], int size){
 		}
 }
 
+
+
 int main(){
-		//setting array
+		size=800;clearing=2;clear=false;cleared=false;int greenTimer=0;
 		srand(time(NULL));
-
-		const int size=800;int i;int resto;int temp; bool clear =false;int j=2;
-		printf("insertando tamaño\n");
-		//scanf("%d", &size);
 		if(size <= 0)return 1;
-		printf("%d\n", size);
-
 		int list[size];
-		randomArray(list, size);
-		
-		//el resto
-		const int screenY=600;
-		InitWindow(size, screenY, "segmentation fault");
-
+		InitWindow(SCREENX, SCREENY, "segmentation fault");
 		SetTargetFPS(60);
-		int clearing=2;
-		bool cleared=false;
 		while(!WindowShouldClose()){
 				BeginDrawing();
 				if(cleared==false)ClearBackground(BLACK);
 				if(cleared==true)ClearBackground(WHITE);
-				
-						
-			//	switch(currentScreen)
-			//	{
-			//			case logo:
-			//			{
-							if (clearing>0){
+				switch(mode)
+				{
+						case 0:{
+						DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
+						DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
+						cleared=true;
+						if (IsKeyPressed(KEY_ONE)) {
+						mode = 1;
+						cleared=false;
+						clearing=2;
+						randomArray(list, size);
+						}
+						break;
+						}
+
+						case 1:{
+						if (clearing>0){
 								clearing=0;
-						//	for(i=1;i<size;i++){
-						//				DrawRectangle(i, 1, 1, list[i], RAYWHITE);
-						//		}
-								for(j=2;j<size;j++){
-										DrawRectangle(j, 1, 1, list[j], RAYWHITE);
-										resto=list[j-1];
-										if (resto > list[j]){
+								for(j=1;j<size;j++){
+										DrawRectangle(j, 800-list[j], 1, list[j], RAYWHITE);											
+										prev=list[j-1];
+										if (prev > list[j]){
 												temp=list[j];
-												list[j]=resto;
+												list[j]=prev;
 												list[j-1]=temp;
 												clearing++;
+												}
 										}
-										}
 								}
-								else{
-										clear=true;
+							else{
+								mode=6;
+								i=1;
 								}
+								break;
+						}
+						case 6:{
+								for (i=1;i<size;i++){
+								DrawRectangle(i, 800 - list[i], 1, list[i], GREEN);
+								}
+								//i++;
+								//if(i==800){
+								greenTimer++;
+								if (greenTimer > 200) {
+								mode=0;
+								}
+								
+								break;
+							   }
+				}
+		
 						
-						
-						if(clear==true && cleared==false){
-								WaitTime(1.0);
-								for(i=1;i<size;i++){
-										DrawRectangle(i, 1, 1, list[i], GREEN);
-								}
-								WaitTime(1.0);
-								cleared++;
-						}
-						if(clear==true && cleared==true){
-								DrawText("pipopipopipo", (size/2)-50, screenY/2, 20, BLACK);
-
-						}
-						EndDrawing();
-						}
+		EndDrawing();
+		}
 		
 		CloseWindow();
 
