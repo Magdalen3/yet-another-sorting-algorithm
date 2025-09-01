@@ -22,6 +22,11 @@ int main(){
 		int list[size];
 		InitWindow(SCREENX, SCREENY, "segmentation fault");
 		SetTargetFPS(60);
+		//explaining modes
+		//mode 0 start menu
+		//mode 1 bubble sorting
+		//the rest of the modes to be programmed
+		//mode 6 just an "animation" of the array
 		while(!WindowShouldClose()){
 				BeginDrawing();
 				if(cleared==false)ClearBackground(BLACK);
