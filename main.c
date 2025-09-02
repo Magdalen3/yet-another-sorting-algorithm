@@ -16,7 +16,7 @@ void randomArray(int list[], int size){
 
 
 int main(){
-		size=800;clearing=2;clear=false;cleared=false;int greenTimer=0;
+		size=800;arraySorting=2;caseCleared=false;int greenTimer=0;
 		srand(time(NULL));
 		if(size <= 0)return 1;
 		int list[size];
@@ -29,26 +29,26 @@ int main(){
 		//mode 6 just an "animation" of the array
 		while(!WindowShouldClose()){
 				BeginDrawing();
-				if(cleared==false)ClearBackground(BLACK);
-				if(cleared==true)ClearBackground(WHITE);
+				if(caseCleared==false)ClearBackground(BLACK);
+				if(caseCleared==true)ClearBackground(WHITE);
 				switch(mode)
 				{
 						case 0:{
 						DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
 						DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
-						cleared=true;
+						caseCleared=true;
 						if (IsKeyPressed(KEY_ONE)) {
 						mode = 1;
-						cleared=false;
-						clearing=2;
+						caseCleared=false;
+						arraySorting=2;
 						randomArray(list, size);
 						}
 						break;
 						}
 
 						case 1:{
-						if (clearing>0){
-								clearing=0;
+						if (arraySorting>0){
+								arraySorting=0;
 								for(j=1;j<size;j++){
 										DrawRectangle(j, 800-list[j], 1, list[j], RAYWHITE);											
 										prev=list[j-1];
@@ -56,7 +56,7 @@ int main(){
 												temp=list[j];
 												list[j]=prev;
 												list[j-1]=temp;
-												clearing++;
+												arraySorting++;
 												}
 										}
 								}
@@ -66,6 +66,9 @@ int main(){
 								}
 								break;
 						}
+						case 2:{
+									   //INSERTE NUEVO MÉTODO TONTAA
+							   }
 						case 6:{
 								for (i=1;i<size;i++){
 								DrawRectangle(i, 800 - list[i], 1, list[i], GREEN);
