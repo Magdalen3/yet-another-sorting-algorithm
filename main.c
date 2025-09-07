@@ -35,12 +35,17 @@ int main(){
 		BeginDrawing();
 		if(caseCleared==false)ClearBackground(BLACK);
 		if(caseCleared==true)ClearBackground(WHITE);
+		if(mode!=START_MENU){
+				for(int k = 0;k<size;k++){
+					DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
+				}
+		}
 		switch(mode){
 			case START_MENU:{
 				DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
 				DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
-				DrawText("press [2] to bubble", (SCREENX/2)-70, (SCREENY/2)+20, 20, BLACK);
-
+				DrawText("press [2] to gnome", (SCREENX/2)-70, (SCREENY/2)+20, 20, BLACK);
+		
 				caseCleared=true;
 				if (IsKeyPressed(KEY_ONE)) {
 					mode = BUBBLE_SORTING;
@@ -49,9 +54,11 @@ int main(){
 					randomArray(list, size);
 				}
 				if (IsKeyPressed(KEY_TWO)) {
-					mode == GNOME_SORTING;
+					mode = GNOME_SORTING;
 					caseCleared=false;
-					i=0;
+					i=1;
+					green_i = 0;
+					arraySorting=2;
 					randomArray(list, size);
 				}
 				break;
@@ -65,7 +72,6 @@ int main(){
 				}
 				arraySorting=0;
 				for(j=1;j<size;j++){
-					DrawRectangle(j, 800-list[j], 1, list[j], RAYWHITE);											
 					prev=list[j-1];
 					if (prev > list[j]){
 						temp=list[j];
@@ -74,25 +80,31 @@ int main(){
 						arraySorting++;
 					}
 				}
+				break;
 			}
 			case GNOME_SORTING:{
-				if(i>size){
-					mode == ANIMATION;
-					break;
-				} 
-				if( i == 0 || list[i] >= list[i-1]){
-					i++;}
+				clear=0;
+				for(int k = 0; k<arraySorting;k++){
+					if (list[i] >= list[i-1]) {
+						i++;
+					}
+					else {
+						temp = list[i];
+						list[i] = list[i-1];
+						list[i-1] = temp;
+						if (i > 1) i--;
+					}	
+				}
+				if(arraySorting<size){
+					arraySorting++;
+				}
 				else{
-				temp = list[i];
-				list[i] = list[i-1];
-				list[i-1] = temp;
+					mode = ANIMATION;
 				}
 
-				}
+				break;
+			}
 			case ANIMATION:{
-				for(int k = 0;k<size;k++){
-					DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
-				}
 				for(int k = 0;k<green_i;k++){
 					DrawRectangle(k, 800 - list[k], 1, list[k], GREEN);
 				}
