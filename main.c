@@ -34,11 +34,11 @@ int main(){
 		if(mode!=START_MENU){
 			for(int k = 0;k<size;k++){
 				ClearBackground(BLACK);
-				DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
+				DrawRectangle(k, size - list[k], 1, list[k], RAYWHITE);
 			}
 			if(mode!=ANIMATION){
-				DrawRectangle(i, 800 - list[i-1], 1, list[i-1], RED);
-				DrawRectangle(i, 800 - list[i+1], 1, list[i+1], RED);
+				DrawRectangle(i, size - list[i-1], 1, list[i-1], RED);
+				DrawRectangle(i, size - list[i+1], 1, list[i+1], RED);
 				PlaySound(swap);
 			}
 		}
@@ -108,7 +108,7 @@ int main(){
 			}
 			case ANIMATION:{
 				for(int k = 0;k<green_i;k++){
-					DrawRectangle(k, 800 - list[k], 1, list[k], GREEN);
+					DrawRectangle(k, size - list[k], 1, list[k], GREEN);
 				}
 				green_i+=8;
 				if (green_i >= size) {
