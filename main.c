@@ -6,88 +6,104 @@
 #include "header.h"
 #define SCREENX 800
 #define SCREENY 800
-
 void randomArray(int list[], int size){
 	for (int i=0;i < size; i++){
 		list[i]=(rand() % (size+1));
 		}
 }
-
-
-
 int main(){
-		size=800;arraySorting=2;caseCleared=false;int greenTimer=0;
-		srand(time(NULL));
-		if(size <= 0)return 1;
-		int list[size];
-		InitWindow(SCREENX, SCREENY, "segmentation fault");
-		SetTargetFPS(60);
-		//explaining modes
-		//mode 0 start menu
-		//mode 1 bubble sorting
-		//the rest of the modes to be programmed
-		//mode 6 just an "animation" of the array
-		while(!WindowShouldClose()){
-				BeginDrawing();
-				if(caseCleared==false)ClearBackground(BLACK);
-				if(caseCleared==true)ClearBackground(WHITE);
-				switch(mode)
-				{
-						case 0:{
-						DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
-						DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
-						caseCleared=true;
-						if (IsKeyPressed(KEY_ONE)) {
-						mode = 1;
-						caseCleared=false;
-						arraySorting=2;
-						randomArray(list, size);
-						}
-						break;
-						}
+	int size;
+	int arraySorting; //if the array completed the sorting it should be 0 or 1, if it isn't, is still sorting
+	int drawSize; int i;int prev;int temp;int j;bool clear;
+	int caseCleared;
+	int selectMode; //selecting mode
+	options_t mode;	//the mode that was selected
+	size=800;arraySorting=2;caseCleared=false;int green_i = 0;
+	srand(time(NULL));
+	if(size <= 0)return 1;
+	int list[size];
+	InitWindow(SCREENX, SCREENY, "segmentation fault");
+	SetTargetFPS(60);
 
-						case 1:{
-						if (arraySorting>0){
-								arraySorting=0;
-								for(j=1;j<size;j++){
-										DrawRectangle(j, 800-list[j], 1, list[j], RAYWHITE);											
-										prev=list[j-1];
-										if (prev > list[j]){
-												temp=list[j];
-												list[j]=prev;
-												list[j-1]=temp;
-												arraySorting++;
-												}
-										}
-								}
-							else{
-								mode=6;
-								i=1;
-								}
-								break;
-						}
-						case 2:{
-									   //INSERTE NUEVO MÉTODO TONTAA
-							   }
-						case 6:{
-								for (i=1;i<size;i++){
-								DrawRectangle(i, 800 - list[i], 1, list[i], GREEN);
-								}
-								//i++;
-								//if(i==800){
-								greenTimer++;
-								if (greenTimer > 200) {
-								mode=0;
-								}
-								
-								break;
-							   }
+	//explaining modes
+	//mode 0 start menu
+	//mode 1 bubble sorting
+	//the rest of the modes to be programmed
+	//mode 6 just an "animation" of the array
+	//
+	while(!WindowShouldClose()){
+		BeginDrawing();
+		if(caseCleared==false)ClearBackground(BLACK);
+		if(caseCleared==true)ClearBackground(WHITE);
+		switch(mode){
+			case START_MENU:{
+				DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
+				DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
+				DrawText("press [2] to bubble", (SCREENX/2)-70, (SCREENY/2)+20, 20, BLACK);
+
+				caseCleared=true;
+				if (IsKeyPressed(KEY_ONE)) {
+					mode = BUBBLE_SORTING;
+					caseCleared=false;
+					arraySorting=2;
+					randomArray(list, size);
 				}
-		
-						
-		EndDrawing();
-		}
-		
-		CloseWindow();
+				if (IsKeyPressed(KEY_TWO)) {
+					mode == GNOME_SORTING;
+					caseCleared=false;
+					i=0;
+					randomArray(list, size);
+				}
+				break;
+			}
 
+			case BUBBLE_SORTING:{
+				green_i = 0;
+				if (arraySorting==0){
+					mode = ANIMATION;
+					break;
+				}
+				arraySorting=0;
+				for(j=1;j<size;j++){
+					DrawRectangle(j, 800-list[j], 1, list[j], RAYWHITE);											
+					prev=list[j-1];
+					if (prev > list[j]){
+						temp=list[j];
+						list[j]=prev;
+						list[j-1]=temp;
+						arraySorting++;
+					}
+				}
+			}
+			case GNOME_SORTING:{
+				if(i>size){
+					mode == ANIMATION;
+					break;
+				} 
+				if( i == 0 || list[i] >= list[i-1]){
+					i++;}
+				else{
+				temp = list[i];
+				list[i] = list[i-1];
+				list[i-1] = temp;
+				}
+
+				}
+			case ANIMATION:{
+				for(int k = 0;k<size;k++){
+					DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
+				}
+				for(int k = 0;k<green_i;k++){
+					DrawRectangle(k, 800 - list[k], 1, list[k], GREEN);
+				}
+				green_i+=8;
+				if (green_i >= size) {
+					mode = START_MENU;
+				}
+				break;
+			}
+		}			
+	EndDrawing();
+	}
+	CloseWindow();
 }
