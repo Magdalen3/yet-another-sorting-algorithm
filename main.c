@@ -15,10 +15,9 @@ int main(){
 	int size;
 	int arraySorting; //if the array completed the sorting it should be 0 or 1, if it isn't, is still sorting
 	int drawSize; int i;int prev;int temp;int j;bool clear;
-	int caseCleared;
 	int selectMode; //selecting mode
 	options_t mode;	//the mode that was selected
-	size=800;arraySorting=2;caseCleared=false;int green_i = 0;
+	size=800;arraySorting=2;int green_i = 0;
 	srand(time(NULL));
 	if(size <= 0)return 1;
 	int list[size];
@@ -31,10 +30,10 @@ int main(){
 
 	while(!WindowShouldClose()){
 		BeginDrawing();
-		if(caseCleared==false)ClearBackground(BLACK);
-		if(caseCleared==true)ClearBackground(WHITE);
+		if(mode==START_MENU)ClearBackground(WHITE);
 		if(mode!=START_MENU){
 			for(int k = 0;k<size;k++){
+				ClearBackground(BLACK);
 				DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
 			}
 			if(mode!=ANIMATION){
@@ -49,16 +48,13 @@ int main(){
 				DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
 				DrawText("press [2] to gnome", (SCREENX/2)-70, (SCREENY/2)+20, 20, BLACK);
 		
-				caseCleared=true;
 				if (IsKeyPressed(KEY_ONE)) {
 					mode = BUBBLE_SORTING;
-					caseCleared=false;
 					arraySorting=2;
 					randomArray(list, size);
 				}
 				if (IsKeyPressed(KEY_TWO)) {
 					mode = GNOME_SORTING;
-					caseCleared=false;
 					i=0;
 					green_i = 0;
 					arraySorting=2;
