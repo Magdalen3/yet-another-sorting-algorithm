@@ -22,23 +22,26 @@ int main(){
 	srand(time(NULL));
 	if(size <= 0)return 1;
 	int list[size];
+
+	//initiating!!!
 	InitWindow(SCREENX, SCREENY, "segmentation fault");
+	InitAudioDevice();
+	Sound swap = LoadSound("swap.wav");
 	SetTargetFPS(60);
 
-	//explaining modes
-	//mode 0 start menu
-	//mode 1 bubble sorting
-	//the rest of the modes to be programmed
-	//mode 6 just an "animation" of the array
-	//
 	while(!WindowShouldClose()){
 		BeginDrawing();
 		if(caseCleared==false)ClearBackground(BLACK);
 		if(caseCleared==true)ClearBackground(WHITE);
 		if(mode!=START_MENU){
-				for(int k = 0;k<size;k++){
-					DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
-				}
+			for(int k = 0;k<size;k++){
+				DrawRectangle(k, 800 - list[k], 1, list[k], RAYWHITE);
+			}
+			if(mode!=ANIMATION){
+				DrawRectangle(i, 800 - list[i-1], 1, list[i-1], RED);
+				DrawRectangle(i, 800 - list[i+1], 1, list[i+1], RED);
+				PlaySound(swap);
+			}
 		}
 		switch(mode){
 			case START_MENU:{
@@ -56,7 +59,7 @@ int main(){
 				if (IsKeyPressed(KEY_TWO)) {
 					mode = GNOME_SORTING;
 					caseCleared=false;
-					i=1;
+					i=0;
 					green_i = 0;
 					arraySorting=2;
 					randomArray(list, size);
@@ -66,20 +69,22 @@ int main(){
 
 			case BUBBLE_SORTING:{
 				green_i = 0;
+
 				if (arraySorting==0){
 					mode = ANIMATION;
 					break;
 				}
 				arraySorting=0;
-				for(j=1;j<size;j++){
-					prev=list[j-1];
-					if (prev > list[j]){
-						temp=list[j];
-						list[j]=prev;
-						list[j-1]=temp;
+				for(i=1;i<size;i++){
+					prev=list[i-1];
+					if (prev > list[i]){
+						temp=list[i];
+						list[i]=prev;
+						list[i-1]=temp;
 						arraySorting++;
 					}
 				}
+
 				break;
 			}
 			case GNOME_SORTING:{
@@ -93,6 +98,7 @@ int main(){
 						list[i] = list[i-1];
 						list[i-1] = temp;
 						if (i > 1) i--;
+						j=0;
 					}	
 				}
 				if(arraySorting<size){
@@ -117,5 +123,7 @@ int main(){
 		}			
 	EndDrawing();
 	}
+    UnloadSound(swap);
+    CloseAudioDevice();
 	CloseWindow();
 }
