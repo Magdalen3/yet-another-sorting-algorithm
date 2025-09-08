@@ -6,6 +6,8 @@
 #include "header.h"
 #define SCREENX 800
 #define SCREENY 800
+#define SAMPLE_RATE 44100
+#define BUFFER_SIZE 4096
 void randomArray(int list[], int size){
 	for (int i=0;i < size; i++){
 		list[i]=(rand() % (size+1));
@@ -25,7 +27,11 @@ int main(){
 	//initiating!!!
 	InitWindow(SCREENX, SCREENY, "segmentation fault");
 	InitAudioDevice();
-	Sound swap = LoadSound("swap.wav");
+	Sound swap = LoadSound("300.wav");
+	SetSoundVolume(swap,0.2);
+	
+	//Sound soundDo = LoadSoundFromWave(GenWaveSquare(261.63f, 0.1f, 0.2f));
+	//Sound soundSi = LoadSoundFromWave(GenWaveSquare(550f, 0.1f, 0.2f));
 	SetTargetFPS(60);
 
 	while(!WindowShouldClose()){
@@ -39,7 +45,8 @@ int main(){
 			if(mode!=ANIMATION){
 				DrawRectangle(i, size - list[i-1], 1, list[i-1], RED);
 				DrawRectangle(i, size - list[i+1], 1, list[i+1], RED);
-				PlaySound(swap);
+				float pitch = (list[i]/size);
+				SetSoundPitch(swap,pitch);
 			}
 		}
 		switch(mode){
@@ -52,6 +59,7 @@ int main(){
 					mode = BUBBLE_SORTING;
 					arraySorting=2;
 					randomArray(list, size);
+					PlaySound(swap);
 				}
 				if (IsKeyPressed(KEY_TWO)) {
 					mode = GNOME_SORTING;
@@ -59,6 +67,7 @@ int main(){
 					green_i = 0;
 					arraySorting=2;
 					randomArray(list, size);
+					PlaySound(swap);
 				}
 				break;
 			}
@@ -97,11 +106,12 @@ int main(){
 						j=0;
 					}	
 				}
-				if(arraySorting<size){
+				if(arraySorting<=size){
 					arraySorting++;
 				}
 				else{
 					mode = ANIMATION;
+			 		PlaySound(swap);
 				}
 
 				break;
@@ -110,6 +120,8 @@ int main(){
 				for(int k = 0;k<green_i;k++){
 					DrawRectangle(k, size - list[k], 1, list[k], GREEN);
 				}
+				float pitch = (list[green_i]/size)*2;
+				SetSoundPitch(swap,pitch);
 				green_i+=8;
 				if (green_i >= size) {
 					mode = START_MENU;
