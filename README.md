@@ -6,11 +6,11 @@ dependencies
 
 to compile
 ```sh
-gcc main.c -lraylib 
+make 
 ```
 to just open
 ```sh
 git clone https://github.com/Magdalen3/yet-another-sorting-algorithm
 cd yet-another-sorting-algorithm
-./a.out
+./executable
 ```

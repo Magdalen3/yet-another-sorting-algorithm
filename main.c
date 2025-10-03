@@ -27,13 +27,12 @@ int main(){
 	//initiating!!!
 	InitWindow(SCREENX, SCREENY, "segmentation fault");
 	InitAudioDevice();
-	Sound swap = LoadSound("300.wav");
-	SetSoundVolume(swap,0.2);
 	
-	//Sound soundDo = LoadSoundFromWave(GenWaveSquare(261.63f, 0.1f, 0.2f));
-	//Sound soundSi = LoadSoundFromWave(GenWaveSquare(550f, 0.1f, 0.2f));
-	SetTargetFPS(60);
+	//Wave WaveSquare = GenWaveSquare(261.63f, 0.1f, 0.2f);
+	//Sound soundDo = LoadSoundFromWave(GenWaveSquare(WaveSquare));
 
+	SetTargetFPS(60);
+	
 	while(!WindowShouldClose()){
 		BeginDrawing();
 		if(mode==START_MENU)ClearBackground(WHITE);
@@ -42,11 +41,10 @@ int main(){
 				ClearBackground(BLACK);
 				DrawRectangle(k, size - list[k], 1, list[k], RAYWHITE);
 			}
+			
 			if(mode!=ANIMATION){
 				DrawRectangle(i, size - list[i-1], 1, list[i-1], RED);
 				DrawRectangle(i, size - list[i+1], 1, list[i+1], RED);
-				float pitch = (list[i]/size);
-				SetSoundPitch(swap,pitch);
 			}
 		}
 		switch(mode){
@@ -54,12 +52,12 @@ int main(){
 				DrawText("select sorting algorithm", (SCREENX/2)-100, (SCREENY/2)-20, 20, BLACK);
 				DrawText("press [1] to bubble", (SCREENX/2)-70, SCREENY/2, 20, BLACK);
 				DrawText("press [2] to gnome", (SCREENX/2)-70, (SCREENY/2)+20, 20, BLACK);
-		
+				
 				if (IsKeyPressed(KEY_ONE)) {
 					mode = BUBBLE_SORTING;
 					arraySorting=2;
 					randomArray(list, size);
-					PlaySound(swap);
+					//PlaySound(soundDo);
 				}
 				if (IsKeyPressed(KEY_TWO)) {
 					mode = GNOME_SORTING;
@@ -67,7 +65,6 @@ int main(){
 					green_i = 0;
 					arraySorting=2;
 					randomArray(list, size);
-					PlaySound(swap);
 				}
 				break;
 			}
@@ -111,7 +108,6 @@ int main(){
 				}
 				else{
 					mode = ANIMATION;
-			 		PlaySound(swap);
 				}
 
 				break;
@@ -120,8 +116,6 @@ int main(){
 				for(int k = 0;k<green_i;k++){
 					DrawRectangle(k, size - list[k], 1, list[k], GREEN);
 				}
-				float pitch = (list[green_i]/size)*2;
-				SetSoundPitch(swap,pitch);
 				green_i+=8;
 				if (green_i >= size) {
 					mode = START_MENU;
@@ -131,7 +125,7 @@ int main(){
 		}			
 	EndDrawing();
 	}
-    UnloadSound(swap);
+    //UnloadSound(soundDo);
     CloseAudioDevice();
 	CloseWindow();
 }
